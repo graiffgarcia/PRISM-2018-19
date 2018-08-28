@@ -310,7 +310,7 @@ use "~/Downloads/us04ih.dta", clear
 /* the first thing you'll notice is that the survey has a ginormous number of
 variables. Stata does *not* require that we open all of them! if you know you're
 only working with a subset of the data, you may specify that subset: */
-use dhi factor hitsi hitsa hitp hxit hpopwgt nhhmem grossnet using ///
+use hid dhi factor hitsi hitsa hitp hxit hpopwgt nhhmem grossnet using ///
 "~/Downloads/us04ih.dta", clear
 
 /* the first important thing: summarize takes the "de" option to show
@@ -333,6 +333,49 @@ other info that you don't need. the quietly command stores everything in r()
 without displaying any of it: */
 quietly summarize nhhmem, de
 
-* we can check that everything has been stored in memory:
+* we can check that the results have been stored in memory:
 return list
 
+/* there's also "ereturn", which allows you to retrieve results of *estimation*
+commands (statistical models). to demonstrate, let's run a regression model: */
+regress hitsi dhi nhhmem
+
+* what's stored in "return"?
+return list
+
+* but in ereturn...
+ereturn list
+
+* as the output of "ereturn list" shows, we retrieve those objects with e():
+display e(r2_a)
+
+/////////////////
+
+/* the LIS website has a sample individual-level dataset of the US in 2004 
+as well as the household-level data set we have loaded. we can merge them with
+the merge command. in this case, we're doing a one-to-many merge (one household, 
+many individuals), & our merge variable is hid, the unique household id. so: */
+merge 1:m hid using "~/Downloads/us04ip.dta", keepusing(hid dname pwgt ///
+ppopwgt relation partner children age sex ///
+immigr educ educ_c emp status1 ptime gross1)
+
+/* note, by the way, that we can specify which variables to load from this "new"
+dataset with the keepusing(var1, var2, var3) option. */
+
+
+/////////////////
+
+/* I'm a firm believer in learning by tinkering, fixing things by trial and
+error, googling error codes and reading the StackExchange explanations carefully
+(instead of _only_ copy-pasting the correct code), etc. that's how I've learned
+almost everything I know about coding. but there are also several great, free
+online resources at your disposal. my three favorites are:
+
+- a collection of cheat sheets:
+https://geocenter.github.io/StataTraining/pdf/AllCheatSheets.pdf
+
+- an online guide with quick introductions to most of Stata's functionality: 
+http://wlm.userweb.mwn.de/Stata/
+
+- a huge list with awesome resources on every aspect of Stata you will ever 
+need to learn: https://sites.google.com/site/mkudamatsu/stata */
