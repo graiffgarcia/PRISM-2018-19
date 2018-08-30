@@ -7,9 +7,9 @@
 
 /* you can use one forward slash and one asterisk to create a multi-line
 comment, meaning that everything is a comment...
-for as many lines as you want...
+for as many lines as you need...
 until you're sick of writing comments...
-at which point you can end your comment block. */
+at which point you can end your comment block like this: */
 
 /* Stata syntax can be quite self-explanatory. most commands are given in the
 format "command variable, options". to start, let's open a data file, with the
@@ -383,11 +383,71 @@ merge 1:m hid using "~/Downloads/us04ip.dta", keepusing(hid dname pwgt ///
 ppopwgt relation partner children age sex ///
 immigr educ educ_c emp status1 ptime gross1)
 
+browse
+
 /* note, by the way, that we can specify which variables to load from this "new"
 dataset with the keepusing(var1, var2, var3) option. 
 
 merges can be 1:1, 1:m, m:1, and m:m. in this syntax, the "master" dataset 
 (which is Stata-merge-talk for the data that's already loaded) goes first. */
+
+/////////////////
+
+/* Stata also supports "programs", which are similar to R functions: chunks of
+code that you *define* once and then call by name to execute. in the spirit of
+Stata's commonsensical English-language syntax, program definitions begin with 
+"program define" and end with "end".
+
+for example, let's use the US04 and the IT04 datasets available on the LIS
+website to solve Problems 1 and 2 of Part 2 in LIS's self-teaching package. 
+they ask us to: 
+
+1) create a combined data file for both countries that contains both individual
+and household-level data;
+2) find the percentage of people aged 25-54 who are homeowners;
+3) find, among women aged 25-54 who are either the household head or the spouse
+of the household head, what percentage are employed;
+4) find, among employed women with the same characteristics as 3, what 
+percentage have part-time employment.
+
+to do that, we can first create a small program that merges household-level & 
+individual-level data, appends one to the other, and saves them to a file. 
+we can start by creating global macros to store 1) the dataset file names; 
+2) the variables for individual-level datasets that we want to use; 3) the 
+variables we want to use for hh-level datasets. */ 
+
+global datasets "us04i it04i"
+global varspp "hid dname pwgt ppopwgt relation emp ptime"
+global varshh "hid own"
+
+/* this "capture program drop" is in case a program with the same name is 
+already defined.*/
+capture program drop merge_data
+
+/* this defines the program merge_data; note how you "call" global macros with
+dollar signs rather than quotation marks. can you go through the program, line
+by line, and explain to yourself what it does? */
+program define merge_data
+	foreach dataset in $datasets {
+		use $varspp using `dataset'p, clear
+		merge m:1 hid using `dataset'h, keepusing($varshh)
+		keep if inrange(age, 25, 54) & relation <= 2200
+		if "`dataset'" != "us04i"{
+			append using exercise2_rgg
+		}
+	save exercise2_rgg, replace
+	}
+end
+
+* here, we execute the program we just created and then load the data it saved:
+merge_data
+use exercise2_rgg, clear
+
+recode own (100/199=1) (200/299=0), gen(homeowner)
+
+bysort dname: summarize homeowner [aw=ppopwgt]
+bysort dname: tabulate sex emp [aw=ppopwgt], row
+bysort dname: tabulate sex ptime [aw=ppopwgt] if emp==1, row
 
 /////////////////
 
@@ -409,4 +469,4 @@ need to learn: https://sites.google.com/site/mkudamatsu/stata
 also: ask for help! I have weekly office hours and I'm available by appointment
 and over e-mail. it's my job to answer questions and help you figure things out!
 don't hesitate to ask a question if it comes up. I'm not an expert Stata user,
-but I _am_ an expert tinkerer and googler of error codes! */
+but I'm a very experienced tinkerer and googler of error codes! */
