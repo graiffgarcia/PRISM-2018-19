@@ -41,7 +41,7 @@ this is a survey about political participation, I want to create a variable
 "minor" for respondents below 18. */
 gen minor = edad < 18
 
-// how many respondents are below 18? we get a mean of 0.07 -- 7% are minors.
+// how many respondents are below 18? we get a mean of 0.06 -- 6% are minors.
 mean minor
 
 /* gen understands quite complex commands. for example: in Brazil, voting is
@@ -49,16 +49,24 @@ mandatory for all eligible citizens between ages 18 and 70. it is optional for
 those aged 16 or 17, or above 70. I want an "opt_voter" variable that flags
 those respondents. */
 
-/* by the way: a period is */
-gen opt_voter = (edad < 18 | edad > 70) & idenpa == "Brazil" & edad <.
+/* by the way: a period is Stata-speak for a missing value. that "edad < ." is
+a way for Stata to NOT include missing values for age in our opt_voter variable.
+without that condition, a missing value for age will count in our condition,
+because missing values in Stata are coded as very large numbers (like 9999) and 
+there is no upper boundary for our "edad > 70" condition. 
 
-/* this doesn't work! what the heck is a "type mismatch"?
+any time you "gen" a variable with an inequality condition, you HAVE to consider
+the possibility that a missing value will mess you up, and adjust your code
+accordingly. */
+gen opt_voter = (edad < 18 | edad > 70) & idenpa == "Brazil" & edad < .
+
+/* hmm... this doesn't work! what the heck is a "type mismatch"?
 the values of the idenpa variable are *not* the names of countries! those are
 labels for the variable, whose actual values are numeric codes. you can find
 the list of labels + values with label list: */
 label list IDENPA
 
-* from there, we can actually create the variable in a way that works:
+* from there, we can actually create the variable in a way that works.
 gen opt_voter = (edad < 18 | edad > 70) & idenpa == 72 & edad <.
 
 /* uh-oh, I made a horrible mistake! Brazil is 76, not 72! no problem, we can
@@ -69,7 +77,7 @@ gen opt_voter = (edad < 18 | edad > 70) & idenpa == 76 & edad <.
 variable with gen. so how could we replace opt_voter? how about "replace"? */
 replace opt_voter = (edad < 18 | edad > 70) & idenpa == 76 & edad <.
 
-* equivalently, you can use "if":
+* equivalently, you can use "if" before our "idenpa == 76" conditional statement:
 replace opt_voter = (edad < 18 | edad > 70) if idenpa == 76 & edad <.
 
 /* alongside gen, you will also use gen's overachieving sibling, "egen", which
@@ -81,8 +89,10 @@ country in the survey: */
 egen mean_age = mean(edad), by(idenpa)
 
 /* and then I also want a median age function, which I can accomplish in two
-ways: */
+ways. between the two, I use "drop" to remove the first median_age variable,
+so Stata doesn't bother me about the variable already existing: */
 egen median_age = median(edad), by(idenpa)
+drop median_age
 bysort idenpa: egen median_age = pctile(edad), p(50)
 
 /* note that in the second command below, I use "by" (to group by country)
@@ -92,12 +102,13 @@ always use the "bysort" command, as it will sort your data before grouping.
 also note how flexible pctile() is, compared to median()! */
 
 /* just for the sake of completion, we can also create a skew_age variable,
-whose values are the mean minus the median respondent age for each country. it
-tells us that the age variable is, for every country, right-skewed -- but the
-amount of skew varies quite a bit. note that I'm using gen instead of egen here.
-egen works with *functions*. you can't use egen to subtract one variable
-from another.*/
+whose values are the mean minus the median respondent age for each country. we
+can visualize this variable with "hist" -- it tells us that the age variable is,
+for every country, right-skewed -- but the amount of skew varies quite a bit. 
+note that I'm using gen instead of egen here. egen works with *functions*. 
+you can't use egen to subtract one variable from another.*/
 gen skew_age = mean_age - median_age
+histogram skew_age
 
 /////////////////
 
@@ -110,14 +121,27 @@ summarize dura
 histogram dura, frequency
 kdensity dura
 
-/* "over" groups a variable by the values of another variable. it allows us to
-build bivariate plots: (the command here is "graph dot", not "graph" with the
-variable "dot") */
+/* "over" creates categories. it allows us to build bivariate plots with
+categorical variables: (the command here is "graph dot", not "graph" with 
+the variable "dot") */
 graph dot dura, over(idenpa)
 
 /* similarly, here's a boxplot, which shows us the crazy amount of outliers in
 almost every country: */
 graph hbox dura, over(idenpa)
+
+/* what's the difference between "over" and "by"? it sounds like they do the 
+same thing, but they definitely don't. "over" is for telling your command
+that a certain variable represents categories in your data; "by" is for running
+the same command several times, once for each value of the variable. 
+they behave very differently: */
+graph dot dura, over(idenpa)
+graph dot dura, by(idenpa)
+
+* but they can be combined:
+graph dot dura, over(idenpa) by(sexo)
+
+/////////////////
 
 /* we can build a correlation matrix quite easily, too 
 (S34 = socioeconomic level) */
@@ -360,8 +384,10 @@ ppopwgt relation partner children age sex ///
 immigr educ educ_c emp status1 ptime gross1)
 
 /* note, by the way, that we can specify which variables to load from this "new"
-dataset with the keepusing(var1, var2, var3) option. */
+dataset with the keepusing(var1, var2, var3) option. 
 
+merges can be 1:1, 1:m, m:1, and m:m. in this syntax, the "master" dataset 
+(which is Stata-merge-talk for the data that's already loaded) goes first. */
 
 /////////////////
 
@@ -378,4 +404,9 @@ https://geocenter.github.io/StataTraining/pdf/AllCheatSheets.pdf
 http://wlm.userweb.mwn.de/Stata/
 
 - a huge list with awesome resources on every aspect of Stata you will ever 
-need to learn: https://sites.google.com/site/mkudamatsu/stata */
+need to learn: https://sites.google.com/site/mkudamatsu/stata 
+
+also: ask for help! I have weekly office hours and I'm available by appointment
+and over e-mail. it's my job to answer questions and help you figure things out!
+don't hesitate to ask a question if it comes up. I'm not an expert Stata user,
+but I _am_ an expert tinkerer and googler of error codes! */
