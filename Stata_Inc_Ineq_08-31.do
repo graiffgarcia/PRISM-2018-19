@@ -77,7 +77,7 @@ gen opt_voter = (edad < 18 | edad > 70) & idenpa == 76 & edad <.
 variable with gen. so how could we replace opt_voter? how about "replace"? */
 replace opt_voter = (edad < 18 | edad > 70) & idenpa == 76 & edad <.
 
-* equivalently, you can use "if" before our "idenpa == 76" conditional statement:
+* equivalently, you can use "if" before our "idenpa == 76" statement:
 replace opt_voter = (edad < 18 | edad > 70) if idenpa == 76 & edad <.
 
 /* alongside gen, you will also use gen's overachieving sibling, "egen", which
@@ -417,7 +417,7 @@ we can start by creating global macros to store 1) the dataset file names;
 variables we want to use for hh-level datasets. */ 
 
 global datasets "us04i it04i"
-global varspp "hid dname pwgt ppopwgt relation emp ptime"
+global varspp "hid dname age pwgt sex ppopwgt relation emp ptime"
 global varshh "hid own"
 
 /* this "capture program drop" is in case a program with the same name is 
@@ -441,6 +441,7 @@ end
 
 * here, we execute the program we just created and then load the data it saved:
 merge_data
+
 use exercise2_rgg, clear
 
 recode own (100/199=1) (200/299=0), gen(homeowner)
