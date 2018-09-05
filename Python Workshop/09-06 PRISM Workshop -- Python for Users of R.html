@@ -11777,6 +11777,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="PRISM-Workshop:-Python-for-R-Users.">PRISM Workshop: Python for R Users.<a class="anchor-link" href="#PRISM-Workshop:-Python-for-R-Users.">&#182;</a></h1><h2 id="0:-Why-use-Python?">0: Why use Python?<a class="anchor-link" href="#0:-Why-use-Python?">&#182;</a></h2><p>Python is a very powerful language with a large and active developer community (last year, <a href="https://octoverse.github.com/#build">Python overtook Java as the 2nd most popular language on GitHub</a>), a very elegant and logical syntax, and a number of popular third-party packages for data analysis. The Python philosophy is that the language should provide <em>one</em> way to perform a task, and that one way should make sense. This goal is what the community that maintains and updates the Python language strives for, and it really shows (in my opinion).</p>
 <p>But Python also offers flexibility: unlike Java, which tries to force you to adopt an object-oriented approach to everything you do, Python gives you choice. Your programs don't have to be <a href="https://steve-yegge.blogspot.com/2006/03/execution-in-kingdom-of-nouns.html">noun-dominated</a>!</p>
+<p>Python's third-party packages allow you to perform tasks that you just can't in R (like webscraping, with Selenium and BeautifulSoup4), that would be too cumbersome in R (like agent-based modeling, with Mesa), or that are way slower in R (like machine learning, with scikit-learn).</p>
 <h3 id="0.1.-Python-2-or-Python-3?">0.1. Python 2 or Python 3?<a class="anchor-link" href="#0.1.-Python-2-or-Python-3?">&#182;</a></h3><p>Honestly, you won't be able to tell the difference most of the time. Some packages no longer support Python 2 (like <code>rpy2</code>, which I use in this file to run R code in a Python notebook), so Python 3 is recommended. The code here is in Python 2, but there's also a Python 3 version. The code is <em>exactly</em> the same, except for four main differences:</p>
 <ul>
 <li>Division: Python 3 allows you to divide two integers and get a float</li>
@@ -11792,8 +11793,8 @@ div#notebook {
 <div class="highlight"><pre><span></span><span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">){</span>x<span class="p">[</span>i<span class="p">]</span><span class="o">&lt;-</span>i<span class="o">^</span><span class="m">2</span><span class="p">}</span>
 </pre></div>
 <p>However, indentation is part of Python's syntax. The <em>body</em> of loops and function definitions have to be <em>indented</em> by two tabs or four spaces. This is part of the language's philosophy: simple is better than complex; readability counts. Using whitespace is better than counting parentheses and brackets at the ends of lines.</p>
-<h2 id="1:-What's-our-goal-today?">1: What's our goal today?<a class="anchor-link" href="#1:-What's-our-goal-today?">&#182;</a></h2><p>I am assuming that you have at least a working knowledge of R. In the coming 90 minutes, I cannot teach you the entire language, but I hope I can show you how Python differs from R, both syntactically and logically, so that you can translate your knowledge of one language to another painlessly.</p>
-<p>I hope that, after leaving this workshop and maybe re-reading this script a couple times, you will be able to teach yourself anything you need to know in Python by:</p>
+<h2 id="1:-What's-our-goal-today?">1: What's our goal today?<a class="anchor-link" href="#1:-What's-our-goal-today?">&#182;</a></h2><p>It's impossible to cover all the bases in 90 minutes, but it's very possible to help you make sense of things so you can have a solid foundation to build on. In that spirit, I hope I can show you how Python differs from R, both syntactically and logically, so that you can translate your knowledge of one language to another painlessly.</p>
+<p>My goal is that, after leaving this workshop and maybe re-reading this script a couple times, you will be able to teach yourself anything you need to know in Python by:</p>
 <p>a) leveraging your knowledge of R;</p>
 <p>b) tinkering, the most important skill in programming;</p>
 <p>c) reading the manuals and documentation for Python modules;</p>
@@ -14640,10 +14641,10 @@ Name: var1, dtype: float64</pre>
 
 
 
-<div id="296b6654-f9fc-4958-ab3a-af9b853f3535"></div>
+<div id="baf68f13-4bf2-4ffc-acaa-81a944197e29"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#296b6654-f9fc-4958-ab3a-af9b853f3535');
+var element = $('#baf68f13-4bf2-4ffc-acaa-81a944197e29');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -15473,10 +15474,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="a6098678-3ef6-4fdf-9281-d5b67b27a77d"></div>
+<div id="b1c3c3fc-5947-4d0d-a0ba-c1da7dd9ba98"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#a6098678-3ef6-4fdf-9281-d5b67b27a77d');
+var element = $('#b1c3c3fc-5947-4d0d-a0ba-c1da7dd9ba98');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -16417,10 +16418,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="36a86d92-13e5-4dd4-a86f-0edf1eebc3f0"></div>
+<div id="1440aeed-e61c-4a38-8dd5-743e5c37d839"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#36a86d92-13e5-4dd4-a86f-0edf1eebc3f0');
+var element = $('#1440aeed-e61c-4a38-8dd5-743e5c37d839');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -17259,10 +17260,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="7e09abdd-e853-42cc-a984-9473f644712f"></div>
+<div id="7938afbd-ef20-4f1c-bf64-9cf2e1a2d8ee"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7e09abdd-e853-42cc-a984-9473f644712f');
+var element = $('#7938afbd-ef20-4f1c-bf64-9cf2e1a2d8ee');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -18104,10 +18105,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="8b425d42-460f-4983-963a-9667c87a016f"></div>
+<div id="169b7963-a624-4a27-81b3-89ffa69ed15e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8b425d42-460f-4983-963a-9667c87a016f');
+var element = $('#169b7963-a624-4a27-81b3-89ffa69ed15e');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 

@@ -9,6 +9,8 @@
 # 
 # But Python also offers flexibility: unlike Java, which tries to force you to adopt an object-oriented approach to everything you do, Python gives you choice. Your programs don't have to be [noun-dominated](https://steve-yegge.blogspot.com/2006/03/execution-in-kingdom-of-nouns.html)!
 # 
+# Python's third-party packages allow you to perform tasks that you just can't in R (like webscraping, with Selenium and BeautifulSoup4), that would be too cumbersome in R (like agent-based modeling, with Mesa), or that are way slower in R (like machine learning, with scikit-learn).
+# 
 # ### 0.1. Python 2 or Python 3?
 # 
 # Honestly, you won't be able to tell the difference most of the time. Some packages no longer support Python 2 (like `rpy2`, which I use in this file to run R code in a Python notebook), so Python 3 is recommended. The code here is in Python 2, but there's also a Python 3 version. The code is *exactly* the same, except for four main differences:
@@ -41,9 +43,9 @@
 # 
 # ## 1: What's our goal today?
 # 
-# I am assuming that you have at least a working knowledge of R. In the coming 90 minutes, I cannot teach you the entire language, but I hope I can show you how Python differs from R, both syntactically and logically, so that you can translate your knowledge of one language to another painlessly.
+# It's impossible to cover all the bases in 90 minutes, but it's very possible to help you make sense of things so you can have a solid foundation to build on. In that spirit, I hope I can show you how Python differs from R, both syntactically and logically, so that you can translate your knowledge of one language to another painlessly.
 # 
-# I hope that, after leaving this workshop and maybe re-reading this script a couple times, you will be able to teach yourself anything you need to know in Python by:
+# My goal is that, after leaving this workshop and maybe re-reading this script a couple times, you will be able to teach yourself anything you need to know in Python by:
 # 
 # a) leveraging your knowledge of R;
 # 
