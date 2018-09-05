@@ -11776,8 +11776,19 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="PRISM-Workshop:-Python-for-R-Users.">PRISM Workshop: Python for R Users.<a class="anchor-link" href="#PRISM-Workshop:-Python-for-R-Users.">&#182;</a></h1><h2 id="0:-Why-use-Python?">0: Why use Python?<a class="anchor-link" href="#0:-Why-use-Python?">&#182;</a></h2><p>Python is a very powerful language with a large and active developer community (last year, <a href="https://octoverse.github.com/#build">Python overtook Java as the 2nd most popular language on GitHub</a>), a very elegant and logical syntax, and a number of popular third-party packages for data analysis. The Python philosophy is that the language should provide <em>one</em> way to perform a task, and that one way should make sense. This goal is what the community that maintains and updates the Python language strives for, and it really shows (in my opinion).</p>
-<p>But Python also offers flexibility: unlike Java, which tries to force you to adopt an object-oriented approach to everything you do, Python gives you the choice between that paradigm and others -- most importantly, functional programming.</p>
-<h3 id="0.1.-Whitespace">0.1. Whitespace<a class="anchor-link" href="#0.1.-Whitespace">&#182;</a></h3><p>R allows you to write a monstrosity like this:</p>
+<p>But Python also offers flexibility: unlike Java, which tries to force you to adopt an object-oriented approach to everything you do, Python gives you choice. Your programs don't have to be <a href="https://steve-yegge.blogspot.com/2006/03/execution-in-kingdom-of-nouns.html">noun-dominated</a>!</p>
+<h3 id="0.1.-Python-2-or-Python-3?">0.1. Python 2 or Python 3?<a class="anchor-link" href="#0.1.-Python-2-or-Python-3?">&#182;</a></h3><p>Honestly, you won't be able to tell the difference most of the time. Some packages no longer support Python 2 (like <code>rpy2</code>, which I use in this file to run R code in a Python notebook), so Python 3 is recommended. The code here is in Python 2, but there's also a Python 3 version. The code is <em>exactly</em> the same, except for four main differences:</p>
+<ul>
+<li>Division: Python 3 allows you to divide two integers and get a float</li>
+<li>The <code>print()</code> function</li>
+<li>The section on formatting strings (with <code>%s</code> vs. <code>format()</code> vs. f-Strings)</li>
+<li>The <code>iteritems()</code> method for dicts, which is deprecated in Python 3</li>
+</ul>
+<p>Python 3 has been a viable option since 2017 or so (when package developers started dropping support for Python 2.7). I recommend switching to it.</p>
+<h3 id="0.2.-Installing-and-running-python">0.2. Installing and running python<a class="anchor-link" href="#0.2.-Installing-and-running-python">&#182;</a></h3><p>If you use a Mac, good news: it comes with Python 2! You can start a Python session by opening the Terminal, typing "python", and pressing return. I <em>strongly</em> recommend installing Python again, though, because the default Python 2 installation doesn't allow you to update packages.</p>
+<p>Installers of Python for both Mac and Windows can be found <a href="https://www.python.org/downloads/">here</a>.</p>
+<p>Once you install Python, you can open a Terminal/Powershell window and type <code>python</code> to start a Python shell session. You can create Python scripts on any text editor (I use Sublime Text; Visual Studio Code is a great free alternative) and run them in Terminal/Powershell with <code>python my_script.py</code>.</p>
+<h3 id="0.3.-Whitespace">0.3. Whitespace<a class="anchor-link" href="#0.3.-Whitespace">&#182;</a></h3><p>R allows you to write a monstrosity like this:</p>
 <div class="highlight"><pre><span></span><span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">){</span>x<span class="p">[</span>i<span class="p">]</span><span class="o">&lt;-</span>i<span class="o">^</span><span class="m">2</span><span class="p">}</span>
 </pre></div>
 <p>However, indentation is part of Python's syntax. The <em>body</em> of loops and function definitions have to be <em>indented</em> by two tabs or four spaces. This is part of the language's philosophy: simple is better than complex; readability counts. Using whitespace is better than counting parentheses and brackets at the ends of lines.</p>
@@ -11837,7 +11848,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Unlike R, Python treats <em>integers</em> and <em>floats</em> differently. An integer divided by another integer equals an integer.</p>
+<p>Unlike R, Python 2 treats <em>integers</em> and <em>floats</em> differently. An integer divided by another integer equals an integer.</p>
 <p>A "float" is called a "float" because it's encoded with floating-point arithmetic. Floats are stored as fractions in base 2. This can eventually create problems, particularly when approximating irrational numbers (see <a href="https://docs.python.org/2/tutorial/floatingpoint.html">https://docs.python.org/2/tutorial/floatingpoint.html</a> and <a href="http://0.30000000000000004.com/">http://0.30000000000000004.com/</a> ).</p>
 <p>If you want the output of your calculation to be more precise than the nearest integer, at least one of your inputs needs to be a float. You can do this in several ways (the easiest of which is simply using decimal point -- like 7.0 instead of 7):</p>
 
@@ -11998,7 +12009,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># loading rpy2 package so we can use R on the line below</span>
@@ -12012,7 +12023,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="o">%%</span>R
@@ -12049,7 +12060,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="o">%%</span>R
@@ -12086,7 +12097,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="o">%%</span>R
@@ -12253,7 +12264,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>But, of course, <code>list[len(mylist)]</code> won't work:</p>
+<p>But, of course, <code>mylist[len(mylist)]</code> won't work:</p>
 
 </div>
 </div>
@@ -12263,7 +12274,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="nb">list</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">mylist</span><span class="p">)]</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">mylist</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">mylist</span><span class="p">)]</span>
 </pre></div>
 
 </div>
@@ -12298,7 +12309,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Finding the last object of a list in Python can be done with the obvious <code>list[len(mylist)-1]</code>, or with this much more elegant solution:</p>
+<p>Finding the last object of a list in Python can be done with <code>list[len(mylist)-1]</code>, or with this much more elegant solution:</p>
 
 </div>
 </div>
@@ -13176,7 +13187,7 @@ Element #9 is 361
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">class</span> <span class="nc">Dog</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -13358,7 +13369,7 @@ Element #9 is 361
 <p>And then install it with:</p>
 <div class="highlight"><pre><span></span>python get-pip.py
 </pre></div>
-<p>Installing packages is pretty simple -- <code>pip install [packagename]</code>.</p>
+<p>Installing packages is pretty simple -- <code>pip install [packagename]</code> on Terminal/Powershell.</p>
 <h3 id="4.2-Loading-modules">4.2 Loading modules<a class="anchor-link" href="#4.2-Loading-modules">&#182;</a></h3><p>Once you've installed a package, you may import its modules to your scripts in two different ways: some packages only consist of one module, which you load with <code>import [module]</code>. Packages that have more than one module allow you to load individual modules with <code>from [package] import [module]</code>. You can also do that to load a specific class from a module: <code>from [module] import [class]</code>.</p>
 <p>There are a <em>ton</em> of useful Python packages, and there's no way I'll even scratch the surface, but here's a few of the most useful ones.</p>
 <h4 id="numpy:-the-fundamental-package-for-scientific-computing"><code>numpy</code>: the fundamental package for scientific computing<a class="anchor-link" href="#numpy:-the-fundamental-package-for-scientific-computing">&#182;</a></h4><p>First, <code>numpy</code> has the <em>array</em> object type, which accepts "vectorized" operations like objects in R:</p>
@@ -14629,10 +14640,10 @@ Name: var1, dtype: float64</pre>
 
 
 
-<div id="5568289b-96cf-463a-9dd9-2e711fc76e4d"></div>
+<div id="296b6654-f9fc-4958-ab3a-af9b853f3535"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#5568289b-96cf-463a-9dd9-2e711fc76e4d');
+var element = $('#296b6654-f9fc-4958-ab3a-af9b853f3535');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -15462,10 +15473,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="ddd2a7df-5e51-43fe-8b73-8cf45250fb7c"></div>
+<div id="a6098678-3ef6-4fdf-9281-d5b67b27a77d"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#ddd2a7df-5e51-43fe-8b73-8cf45250fb7c');
+var element = $('#a6098678-3ef6-4fdf-9281-d5b67b27a77d');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -16406,10 +16417,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="8301516b-d8f7-4d48-98ca-6a37931d4745"></div>
+<div id="36a86d92-13e5-4dd4-a86f-0edf1eebc3f0"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8301516b-d8f7-4d48-98ca-6a37931d4745');
+var element = $('#36a86d92-13e5-4dd4-a86f-0edf1eebc3f0');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -17248,10 +17259,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="9468c9f4-7d68-4531-92e8-16828fae558b"></div>
+<div id="7e09abdd-e853-42cc-a984-9473f644712f"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#9468c9f4-7d68-4531-92e8-16828fae558b');
+var element = $('#7e09abdd-e853-42cc-a984-9473f644712f');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -18093,10 +18104,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="8458509a-b8f3-41ca-a5af-3683db4d44fc"></div>
+<div id="8b425d42-460f-4983-963a-9667c87a016f"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8458509a-b8f3-41ca-a5af-3683db4d44fc');
+var element = $('#8b425d42-460f-4983-963a-9667c87a016f');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
