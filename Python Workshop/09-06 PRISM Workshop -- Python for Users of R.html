@@ -11778,7 +11778,7 @@ div#notebook {
 <h1 id="PRISM-Workshop:-Python-for-R-Users.">PRISM Workshop: Python for R Users.<a class="anchor-link" href="#PRISM-Workshop:-Python-for-R-Users.">&#182;</a></h1><h2 id="0:-Why-use-Python?">0: Why use Python?<a class="anchor-link" href="#0:-Why-use-Python?">&#182;</a></h2><p>Python is a very powerful language with a large and active developer community (last year, <a href="https://octoverse.github.com/#build">Python overtook Java as the 2nd most popular language on GitHub</a>), a very elegant and logical syntax, and a number of popular third-party packages for data analysis. The Python philosophy is that the language should provide <em>one</em> way to perform a task, and that one way should make sense. This goal is what the community that maintains and updates the Python language strives for, and it really shows (in my opinion).</p>
 <p>But Python also offers flexibility: unlike Java, which tries to force you to adopt an object-oriented approach to everything you do, Python gives you choice. Your programs don't have to be <a href="https://steve-yegge.blogspot.com/2006/03/execution-in-kingdom-of-nouns.html">noun-dominated</a>!</p>
 <p>Python's third-party packages allow you to perform tasks that you just can't in R (like webscraping, with Selenium and BeautifulSoup4), that would be too cumbersome in R (like agent-based modeling, with Mesa), or that are way slower in R (like machine learning, with scikit-learn).</p>
-<h3 id="0.1.-Python-2-or-Python-3?">0.1. Python 2 or Python 3?<a class="anchor-link" href="#0.1.-Python-2-or-Python-3?">&#182;</a></h3><p>Honestly, you won't be able to tell the difference most of the time. Some packages no longer support Python 2 (like <code>rpy2</code>, which I use in this file to run R code in a Python notebook), so Python 3 is recommended. The code here is in Python 2, but there's also a Python 3 version. The code is <em>exactly</em> the same, except for four main differences:</p>
+<h3 id="0.0.-Python-2-or-Python-3?">0.0. Python 2 or Python 3?<a class="anchor-link" href="#0.0.-Python-2-or-Python-3?">&#182;</a></h3><p>Honestly, you won't be able to tell the difference most of the time. Some packages no longer support Python 2 (like <code>rpy2</code>, which I use in this file to run R code in a Python notebook), so Python 3 is recommended. The code here is in Python 2, but there's also a Python 3 version. The code is <em>exactly</em> the same, except for four main differences:</p>
 <ul>
 <li>Division: Python 3 allows you to divide two integers and get a float</li>
 <li>The <code>print()</code> function</li>
@@ -11786,10 +11786,10 @@ div#notebook {
 <li>The <code>iteritems()</code> method for dicts, which is deprecated in Python 3</li>
 </ul>
 <p>Python 3 has been a viable option since 2017 or so (when package developers started dropping support for Python 2.7). I recommend switching to it.</p>
-<h3 id="0.2.-Installing-and-running-python">0.2. Installing and running python<a class="anchor-link" href="#0.2.-Installing-and-running-python">&#182;</a></h3><p>If you use a Mac, good news: it comes with Python 2! You can start a Python session by opening the Terminal, typing "python", and pressing return. I <em>strongly</em> recommend installing Python again, though, because the default Python 2 installation doesn't allow you to update packages.</p>
+<h3 id="0.1.-Installing-and-running-python">0.1. Installing and running python<a class="anchor-link" href="#0.1.-Installing-and-running-python">&#182;</a></h3><p>If you use a Mac, good news: it comes with Python 2! You can start a Python session by opening the Terminal, typing "python", and pressing return. I <em>strongly</em> recommend installing Python again, though, because the default Python 2 installation doesn't allow you to update packages.</p>
 <p>Installers of Python for both Mac and Windows can be found <a href="https://www.python.org/downloads/">here</a>.</p>
 <p>Once you install Python, you can open a Terminal/Powershell window and type <code>python</code> to start a Python shell session. You can create Python scripts on any text editor (I use Sublime Text; Visual Studio Code is a great free alternative) and run them in Terminal/Powershell with <code>python my_script.py</code>.</p>
-<h3 id="0.3.-Whitespace">0.3. Whitespace<a class="anchor-link" href="#0.3.-Whitespace">&#182;</a></h3><p>R allows you to write a monstrosity like this:</p>
+<h3 id="0.2.-Whitespace">0.2. Whitespace<a class="anchor-link" href="#0.2.-Whitespace">&#182;</a></h3><p>R allows you to write a monstrosity like this:</p>
 <div class="highlight"><pre><span></span><span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">){</span>x<span class="p">[</span>i<span class="p">]</span><span class="o">&lt;-</span>i<span class="o">^</span><span class="m">2</span><span class="p">}</span>
 </pre></div>
 <p>However, indentation is part of Python's syntax. The <em>body</em> of loops and function definitions have to be <em>indented</em> by two tabs or four spaces. This is part of the language's philosophy: simple is better than complex; readability counts. Using whitespace is better than counting parentheses and brackets at the ends of lines.</p>
@@ -11850,7 +11850,6 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Unlike R, Python 2 treats <em>integers</em> and <em>floats</em> differently. An integer divided by another integer equals an integer.</p>
-<p>A "float" is called a "float" because it's encoded with floating-point arithmetic. Floats are stored as fractions in base 2. This can eventually create problems, particularly when approximating irrational numbers (see <a href="https://docs.python.org/2/tutorial/floatingpoint.html">https://docs.python.org/2/tutorial/floatingpoint.html</a> and <a href="http://0.30000000000000004.com/">http://0.30000000000000004.com/</a> ).</p>
 <p>If you want the output of your calculation to be more precise than the nearest integer, at least one of your inputs needs to be a float. You can do this in several ways (the easiest of which is simply using decimal point -- like 7.0 instead of 7):</p>
 
 </div>
@@ -11897,6 +11896,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>A "float" is called a "float" because it's encoded with floating-point arithmetic. Floats are stored as fractions in base 2. This can eventually create problems, particularly when approximating irrational numbers (see <a href="https://docs.python.org/2/tutorial/floatingpoint.html">https://docs.python.org/2/tutorial/floatingpoint.html</a> and <a href="http://0.30000000000000004.com/">http://0.30000000000000004.com/</a> ).</p>
 <p>Floating-point expressions are <strong>approximate</strong>. This is true for every language. Python, by default, prints 17 digits after the decimal point, and that's enough to see the imprecisions of floating-point operations. Increasing that to 22 digits (because R, which appears below, only supports up to 22) makes it even more obvious that, once more, Python gives you an <strong>approximation</strong>.</p>
 
 </div>
@@ -13062,7 +13062,7 @@ Element #9 is 361
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="2.3-Functions">2.3 Functions<a class="anchor-link" href="#2.3-Functions">&#182;</a></h3><p>Function definitions (aka, 'writing' a function) and function calls look similar in Python as they do in R. Defining a function in Python starts with the term "def", then the name of the function, and its arguments (if any).</p>
+<h3 id="2.4-Functions">2.4 Functions<a class="anchor-link" href="#2.4-Functions">&#182;</a></h3><p>Function definitions (aka, 'writing' a function) and function calls look similar in Python as they do in R. Defining a function in Python starts with the term "def", then the name of the function, and its arguments (if any).</p>
 <p>For example, let's use what we've learned so far to create a simple function that takes one argument (n) and then finds all the prime numbers between 1 and n.</p>
 
 </div>
@@ -13352,7 +13352,7 @@ Element #9 is 361
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is different from the classes you've seen in R, which mostly refer to different kinds of data (numbers, alphanumerics, logicals, matrices, etc). In Python, a class is more like a container for attributes and functions.</p>
+<p>This is different from the classes you've seen in R, which mostly refer to different kinds of data (numbers, alphanumerics, logicals, matrices, etc). In Python, a class is more like a container for attributes and functions. Every object is an <em>instance</em> of a class, so in that narrow sense, a class can refer to a kind of data just like in R -- integers, floats, strings, lists, etc.</p>
 <p>The "object.attribute" or "object.function()" syntax appears everywhere in Python, and this is what it refers to -- in our example, Riley <em>is a</em> Dog, and so he <em>has an</em> age, a human age, and speech(). Any other object that is a Dog will have these same things (and you have to initialize them the same way -- by providing an age).</p>
 <p>At its core, this is all that OOP really is. You write a program by creating classes, and creating objects and functions that "belong" to those classes. Objects are <em>instances</em> of classes, and they inherit all the properties of that class.</p>
 
@@ -13370,7 +13370,7 @@ Element #9 is 361
 <p>And then install it with:</p>
 <div class="highlight"><pre><span></span>python get-pip.py
 </pre></div>
-<p>Installing packages is pretty simple -- <code>pip install [packagename]</code> on Terminal/Powershell.</p>
+<p>Installing packages is pretty simple -- on Terminal/Powershell/bash, you can enter <code>pip install [package]</code> to automatically download and install a package. To install multiple packages at once, you enter all their names separated by spaces. For example, to install every package that we're going to use today, you'd enter <code>pip install numpy pandas matplotlib</code>.</p>
 <h3 id="4.2-Loading-modules">4.2 Loading modules<a class="anchor-link" href="#4.2-Loading-modules">&#182;</a></h3><p>Once you've installed a package, you may import its modules to your scripts in two different ways: some packages only consist of one module, which you load with <code>import [module]</code>. Packages that have more than one module allow you to load individual modules with <code>from [package] import [module]</code>. You can also do that to load a specific class from a module: <code>from [module] import [class]</code>.</p>
 <p>There are a <em>ton</em> of useful Python packages, and there's no way I'll even scratch the surface, but here's a few of the most useful ones.</p>
 <h4 id="numpy:-the-fundamental-package-for-scientific-computing"><code>numpy</code>: the fundamental package for scientific computing<a class="anchor-link" href="#numpy:-the-fundamental-package-for-scientific-computing">&#182;</a></h4><p>First, <code>numpy</code> has the <em>array</em> object type, which accepts "vectorized" operations like objects in R:</p>
@@ -14641,10 +14641,10 @@ Name: var1, dtype: float64</pre>
 
 
 
-<div id="baf68f13-4bf2-4ffc-acaa-81a944197e29"></div>
+<div id="99e8529e-e15c-473c-8cdd-945ff7ee8eee"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#baf68f13-4bf2-4ffc-acaa-81a944197e29');
+var element = $('#99e8529e-e15c-473c-8cdd-945ff7ee8eee');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -15474,10 +15474,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="b1c3c3fc-5947-4d0d-a0ba-c1da7dd9ba98"></div>
+<div id="40988d57-19a0-4011-bcd3-517d8c06ad50"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#b1c3c3fc-5947-4d0d-a0ba-c1da7dd9ba98');
+var element = $('#40988d57-19a0-4011-bcd3-517d8c06ad50');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -16418,10 +16418,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="1440aeed-e61c-4a38-8dd5-743e5c37d839"></div>
+<div id="4cc00eb6-9794-486b-a133-e51f226a90a4"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#1440aeed-e61c-4a38-8dd5-743e5c37d839');
+var element = $('#4cc00eb6-9794-486b-a133-e51f226a90a4');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -17260,10 +17260,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="7938afbd-ef20-4f1c-bf64-9cf2e1a2d8ee"></div>
+<div id="06722372-9889-4d4d-adf6-b4bdc79d7e6a"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7938afbd-ef20-4f1c-bf64-9cf2e1a2d8ee');
+var element = $('#06722372-9889-4d4d-adf6-b4bdc79d7e6a');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -18105,10 +18105,10 @@ if (IPython.notebook.kernel != null) {
 
 
 
-<div id="169b7963-a624-4a27-81b3-89ffa69ed15e"></div>
+<div id="54d9cdd2-b8de-427c-a69b-83dd296eeaa4"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#169b7963-a624-4a27-81b3-89ffa69ed15e');
+var element = $('#54d9cdd2-b8de-427c-a69b-83dd296eeaa4');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
