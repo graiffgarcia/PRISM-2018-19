@@ -1,4 +1,6 @@
 library(tidyverse)
+# if sf doesn't load because you don't have the group_map function, 
+# ***update dplyr!***
 library(sf)
 library(rmapshaper)
 library(colormap)
@@ -107,7 +109,7 @@ ct_simplified <- ms_simplify(ct_contig, keep = 0.01, keep_shapes = TRUE)
 # with rapply ('recursive sapply', for nested lists), we can find how many
 # different coordinates make up the map in the original counties data and in
 # the simplified one. although we set keep = 0.01 above, ct_simplified has about
-# 3.1% of the lines of ct_contig. still, that's a huge difference, and it looks 
+# 3% of the lines of ct_contig. still, that's a huge difference, and it looks 
 # just fine at the resolutions we'll use.
 sum(rapply(st_geometry(ct_contig), nrow))
 sum(rapply(st_geometry(ct_simplified), nrow))
@@ -284,11 +286,16 @@ county_coords_sf <- st_as_sf(county_coords, coords = c("X", "Y"))
 ggplot(county_coords_sf) + geom_sf() +
   theme_map()
 
-#### executions by county----
+#### an example of a model with spatial autocorrelation----
+library(mgcv)
+
+# first -- we load a dataset with county-level variables from the 2010 Census, 
+# which I assembled from various Census datasets.
 cens <- readRDS(file.path('~/Documents/GitHub/PRISM-2018-19',
                                   'sf Workshop/census2010.Rds'))
 cens
 
+# then, a dataset with county-level presidential election results
 res2012 <- readRDS(file.path('~/Documents/GitHub/PRISM-2018-19',
                              'sf Workshop/results2012.Rds'))
 res2012
@@ -306,15 +313,48 @@ ggplot(ct_simplified) +
   scale_fill_colormap(colormap = "bluered", reverse = TRUE, discrete = FALSE)
 
 
+# for our first spline, latitude and longitude:
+ct_simplified <- st_transform(ct_centroids, 4326) %>%
+  {mutate(ct_simplified, lat = st_coordinates(.)[,1],
+                         long = st_coordinates(.)[,2])}
 
-summary(glm(per_dem_2012 ~ TOT_POP + I(TOT_FEMALE/TOT_POP) + 
-              I(BA_MALE/TOT_POP),
-    data = ct_simplified))
+m0 <- gam(per_dem_2012 ~ I(TOT_POP/1e+3) + TOT_FEMALE +
+            I(WA_MALE + WA_FEMALE) + I(H_MALE + H_FEMALE) +
+            POV_RATE + PCT_UI +
+            Metro_2013 + Unemployment_rate_2010,
+          data = ct_simplified)
+summary(m0)
+
+m1 <- gam(per_dem_2012 ~ I(TOT_POP/1e+3) + TOT_FEMALE +
+            I(WA_MALE + WA_FEMALE) + I(H_MALE + H_FEMALE) +
+            POV_RATE + PCT_UI +
+            Metro_2013 + Unemployment_rate_2010 +
+            s(lat, long, bs = "tp", k = 100),
+            data = ct_simplified)
+summary(m1)
+gam.check(m1)
+plot(m1, scheme = 0)
+plot(m1, scheme = 1)
+plot(m1, scheme = 2)
+plot(m1, scheme = 3)
 
 
 #### neighbors----
-nbrs <- st_intersects(ct_contig, ct_contig)
-nbrs_fips <- map(nbrs, ~ slice(ct_contig, .x))
+nbrs <- st_intersects(ct_simplified, ct_simplified)
+nbrs_fips <- map(nbrs, ~ slice(ct_simplified, .x))
+ct_simplified <- map_dfr(nbrs_fips,
+                         ~ slice(.x, -1) %>% 
+                           summarize(H_NBRS = mean(H_MALE + H_FEMALE, 
+                                                   na.rm = TRUE)) %>% 
+                           as.data.frame %>% select(1)) %>% 
+  bind_cols(ct_simplified, .)
+
+m2 <- gam(per_dem_2012 ~ I(TOT_POP/1e+3) + TOT_FEMALE +
+            I(WA_MALE + WA_FEMALE) + I(H_MALE + H_FEMALE) +
+            H_NBRS +
+            Metro_2013 + Unemployment_rate_2010,
+          data = ct_simplified)
+summary(m2)
 
 
 ggplot(ct_simplified) + 
