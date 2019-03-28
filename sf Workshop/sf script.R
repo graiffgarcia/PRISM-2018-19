@@ -354,7 +354,6 @@ m0 <- gam(per_dem_2012 ~ I(TOT_POP/1e+3) + TOT_FEMALE + WA_ + H_ +
             POV_RATE + PCT_UI + Metro_2013 + Unemployment_rate_2010,
           data = ct_simplified)
 summary(m0)
-gam.check(m0)
 
 # first thing: how do we even know if there's spatial autocorrelation here?
 # the general formula is: find neighbors for each county, spatially lag your
@@ -393,8 +392,8 @@ moranistatistic <- coef(lm(per_nbrs ~ per_dem, data = moran_df))[2]
 # random values of per_dem, but the actual neighbors list. if we do this 
 # a bajillion times, we should have a distribution of values of Moran's I under
 # the null hypothesis of no spatial autocorrelation:
-morani <- vector(length = 500, mode = "double")
-for(i in 1:500){
+morani <- vector(length = 200, mode = "double")
+for(i in 1:200){
   per_dem <- sample(ct_simplified$per_dem_2012, replace = FALSE)
   per_nbrs <- map_dbl(1:length(per_dem), ~ mean(per_dem[nbrs[[.x]]]))
   morani[i] <- coef(lm(per_nbrs ~ per_dem))[2]
