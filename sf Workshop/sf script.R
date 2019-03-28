@@ -1,5 +1,5 @@
 library(tidyverse)
-# if sf doesn't load because you don't have the group_map function, 
+# if sf doesn't load because it can't find the group_map function, 
 # ***update dplyr!***
 library(sf)
 # we're only using rmapshaper once today -- but it's a very useful package! in
